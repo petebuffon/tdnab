@@ -2,7 +2,7 @@
 
 ## Simple HTML table <td> scraper
 
-tdnab is a Rust CLI program that quickly generates a wordlist from a webpage. All cells, HTML tag <td>, are scraped from all HTML tables from a given website URL. Various flags are available to filter and transform the output wordlist.
+tdnab is a Rust CLI program that quickly generates a wordlist from a webpage. The contents of all `<td>` HTML tags are scraped from all HTML tables from a given website URL. Various flags are available to filter and transform the output wordlist.
 
 ## Usage
 ```
@@ -49,11 +49,14 @@ $ wc -l wordlist.txt
 421 wordlist.txt
 ```
 
+```
 Exclude cells 2 characters and under
 
 $ tdnab -m 3 -o wordlist.txt "https://en.wikipedia.org/wiki/Rust_(programming_language)"
 $ wc -l wordlist.txt
 365 wordlist.txt
+```
+
 ```
 Exclude integer only cells
 
