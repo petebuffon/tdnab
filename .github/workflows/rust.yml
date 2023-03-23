@@ -15,15 +15,24 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     steps:
     - uses: actions/checkout@v3
-    - name: Build
-      run: |
-        VERSION=$(cargo pkgid | cut -d "#" -f2)
-        cargo build --release --verbose
+    - id: version
+      run: echo "version=$(cargo pkgid | cut -d '#' -f2)" >> "$GITHUB_OUTPUT"
+    - id: build
+      run: cargo build --release --verbose
+
+  upload:
+    runs-on: ${{ matrix.os }}
+    needs: build
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
     - name: artifact
       uses: actions/upload-artifact@v3
       with:
-        name: tdnab-$VERSION-${{ runner.os }}_${{ runner.arch }}
+        name: tdnab-${{ needs.build.outputs.version }}-${{ runner.os }}_${{ runner.arch }}
         path: target/release/tdnab
-
