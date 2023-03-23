@@ -21,6 +21,10 @@ jobs:
       run: cargo build --release --verbose
     - name: path
       run: |
-        ls
         ls target/release
+    - name: artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: bin
+        path: target/release/tdnab
 
