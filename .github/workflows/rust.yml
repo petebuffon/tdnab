@@ -18,11 +18,12 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build
-      run: cargo build --release --verbose
+      run: |
+        VERSION=$(cargo pkgid | cut -d "#" -f2)
+        cargo build --release --verbose
     - name: artifact
       uses: actions/upload-artifact@v3
       with:
-        run: VERSION=$(cargo pkgid | cut -d "#" -f2)
         name: tdnab-$VERSION-${{ runner.os }}_${{ runner.arch }}
         path: target/release/tdnab
 
