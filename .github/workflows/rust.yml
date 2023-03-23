@@ -22,6 +22,7 @@ jobs:
     - name: artifact
       uses: actions/upload-artifact@v3
       with:
-        name: tdnab-$(cargo pkgid | cut -d "#" -f2)-${{ runner.os }}_${{ runner.arch }}
+        run: VERSION=$(cargo pkgid | cut -d "#" -f2)
+        name: tdnab-$VERSION-${{ runner.os }}_${{ runner.arch }}
         path: target/release/tdnab
 
