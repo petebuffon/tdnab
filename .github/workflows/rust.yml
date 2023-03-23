@@ -11,20 +11,17 @@ env:
 
 jobs:
   build:
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
-    runs-on: ubuntu-latest
+        os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
     - uses: actions/checkout@v3
     - name: Build
       run: cargo build --release --verbose
-    - name: path
-      run: |
-        ls target/release
     - name: artifact
       uses: actions/upload-artifact@v3
       with:
-        name: bin
+        name: tdnab-$(cargo pkgid | cut -d "#" -f2)-${{ runner.os }}_${{ runner.arch }}
         path: target/release/tdnab
 
