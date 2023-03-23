@@ -23,9 +23,14 @@ jobs:
       - name: Get Version
         id: version
         run: echo "version=$(cargo pkgid | cut -d '#' -f2)" >> $GITHUB_OUTPUT
+      - name: Name
+        id: name
+        run: echo "name=tdnab-${{ steps.version.outputs.version }}-${{ runner.os }}_${{ runner.arch }} >> $GITHUB_OUTPUT
+      - name: Change Name
+        id: change
+        run: mv target/release/tdnab target/release/${{ steps.name.outputs.name }}
       - name: Upload
         id: upload
         uses: actions/upload-artifact@v3
         with:
-          name: tdnab-${{ steps.version.outputs.version }}-${{ runner.os }}_${{ runner.arch }}
-          path: target/release/tdnab
+          path: target/release/${{ steps.name.outputs.name }}
